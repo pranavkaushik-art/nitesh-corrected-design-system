@@ -19,7 +19,8 @@ import { AddIcon, CloseIcon, StarIcon } from "@/components/ui/icons";
  *               or if it fails). A cut-out photo shows the colour behind it.
  *   name        gives the initials, and the colour when color is left out
  *               (one person always gets the same colour)
- *   color       gray | blue | red (Yellow, Sky and Purple wait for their hues)
+ *   color       gray | blue | red | yellow | purple | sky | spirit (the
+ *               Figma's persona colours: each is its 200 behind, 950 words)
  *   No photo and no name: the placeholder person.
  *   topMark     favorite | add | remove | notification
  *   bottomMark  online | offline | busy, or company={<img .../>} for a logo
@@ -32,7 +33,7 @@ import { AddIcon, CloseIcon, StarIcon } from "@/components/ui/icons";
  */
 
 export type AvatarSize = "80" | "72" | "64" | "56" | "48" | "40" | "32" | "24" | "20";
-export type AvatarColor = "gray" | "blue" | "red" | "brand";
+export type AvatarColor = "gray" | "blue" | "red" | "brand" | "yellow" | "purple" | "sky" | "spirit";
 
 /** The circle, and the initials' type at each size. */
 const SIZE: Record<AvatarSize, string> = {
@@ -44,9 +45,14 @@ const SIZE: Record<AvatarSize, string> = {
   "40": "size-avatar-40 text-label-md",
   "32": "size-avatar-32 text-label-sm",
   "24": "size-avatar-24 text-label-xs",
-  // Ours: 11, so two letters clear the 20 circle (24 Oct 2026; the Figma uses 12).
-  "20": "size-avatar-20 text-subheading-2xs",
+  // 12/16 as the Figma draws it: from 32 down the avatar shows one letter, so
+  // the old 11 (picked to fit two letters) is no longer needed.
+  "20": "size-avatar-20 text-label-xs",
 };
+
+/** The Figma's Text avatar shows one letter at 32, 24 and 20 (Avatar [1.1],
+ *  nodes 174787:51761, :51765, :51769), two above. */
+const ONE_LETTER: ReadonlySet<AvatarSize> = new Set<AvatarSize>(["32", "24", "20"]);
 
 const MARK_SIZE: Record<AvatarSize, string> = {
   "80": "size-avatar-80-mark",
@@ -63,12 +69,23 @@ const MARK_SIZE: Record<AvatarSize, string> = {
 /** The circle in the colour's light, the initials in its dark (the state
  *  tokens, so on dark the circle softens and the initials lighten). */
 const COLOUR: Record<AvatarColor, string> = {
-  gray: "bg-state-faded-light text-state-faded-dark",
-  blue: "bg-state-information-light text-state-information-dark",
-  red: "bg-state-error-light text-state-error-dark",
+  // The Figma's avatar colours are palette steps, the same in both themes
+  // (Avatar [1.1] light 174787:51592, dark Avatar Group 175321:181232): each
+  // ramp's 200 behind and its 950 for the words, Gray's words static-black.
+  // On dark they stay these pastels, so the group's dark edge
+  // (stroke/white-0, #171717 on dark) shows between them as drawn.
+  gray: "bg-(--palette-gray-200) text-static-black",
+  blue: "bg-(--palette-information-200) text-(--palette-information-950)",
+  red: "bg-(--palette-error-200) text-(--palette-error-950)",
   // Neutrino only (23 Oct 2026): the brand's cobalt, for the workspace's
   // initials. The Figma's Blue is the Information status blue.
   brand: "bg-primary-alpha-16 text-primary-base",
+  // Yellow is the Away ramp, Purple Feature, Sky Verified, Spirit the brand
+  // (blue) ramp: the same hexes as drawn.
+  yellow: "bg-(--palette-away-200) text-(--palette-away-950)",
+  purple: "bg-(--palette-feature-200) text-(--palette-feature-950)",
+  sky: "bg-(--palette-verified-200) text-(--palette-verified-950)",
+  spirit: "bg-(--palette-blue-200) text-(--palette-blue-950)",
 };
 const COLOURS: AvatarColor[] = ["gray", "blue", "red"];
 
@@ -92,7 +109,8 @@ function Placeholder() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden className="size-full text-static-white">
       <ellipse cx="12" cy="23.4" rx="9.6" ry="7.2" fill="currentColor" fillOpacity={0.72} />
-      <circle cx="12" cy="9.6" r="4.8" fill="currentColor" />
+      {/* The Figma's head is at 90% (node 174787:51779 and its sizes). */}
+      <circle cx="12" cy="9.6" r="4.8" fill="currentColor" opacity={0.9} />
     </svg>
   );
 }
@@ -163,6 +181,9 @@ export type AvatarProps = Omit<React.ComponentProps<"span">, "color" | "children
   src?: string;
   alt?: string;
   name?: string;
+  /** The letters to show, in place of the ones taken from name (still cut to
+   *  one letter at 32 and below). */
+  initials?: string;
   color?: AvatarColor;
   topMark?: AvatarTopMarkType;
   bottomMark?: AvatarBottomMarkType;
@@ -170,11 +191,12 @@ export type AvatarProps = Omit<React.ComponentProps<"span">, "color" | "children
   company?: React.ReactNode;
 };
 
-export function Avatar({ size, src, alt, name, color, topMark, bottomMark, company, className, ...props }: AvatarProps) {
+export function Avatar({ size, src, alt, name, initials: letters, color, topMark, bottomMark, company, className, ...props }: AvatarProps) {
   const groupSize = React.useContext(GroupSize);
   const s = size ?? groupSize ?? "40";
   const colour = color ?? (name ? colourFor(name) : "gray");
-  const initials = name ? initialsOf(name) : "";
+  const full = letters ?? (name ? initialsOf(name) : "");
+  const initials = full.slice(0, ONE_LETTER.has(s) ? 1 : 2);
   const label = alt ?? name;
 
   return (
@@ -224,11 +246,32 @@ export type AvatarGroupProps = React.ComponentProps<"div"> & {
   more?: number;
 };
 
-/** Avatars of one size in a row, each overlapping the one before, each with
- *  a 2px ring in stroke/white-0 outside it. */
+/** The "+9" circle: its size and its type, as the Figma draws each (Avatar
+ *  Group [1.1], node 581:6198). Bigger than the initials at 56 and 48; 11px
+ *  capitals at 20. */
+const MORE: Record<AvatarSize, string> = {
+  "80": "size-avatar-80 font-display text-title-h5",
+  "72": "size-avatar-72 font-display text-title-h5",
+  "64": "size-avatar-64 font-display text-title-h5",
+  "56": "size-avatar-56 font-display text-title-h5",
+  "48": "size-avatar-48 font-display text-title-h6",
+  "40": "size-avatar-40 text-label-md",
+  "32": "size-avatar-32 text-label-sm",
+  "24": "size-avatar-24 text-label-xs",
+  "20": "size-avatar-20 text-subheading-2xs",
+};
+
+/** Each avatar in a group: the 2px stroke/white-0 ring outside it. `relative`
+ *  makes each one paint as a unit, left to right, so an avatar and its ring
+ *  sit over the one before and the ring cuts the Figma's curved gap into it.
+ *  Without it every avatar's picture (itself positioned) paints over every
+ *  ring, and the gap never shows. */
+const GROUP_RING = "ds-shadow relative inline-flex shrink-0 rounded-avatar [--ds-lift:var(--shadow-avatar-group)]";
+
+/** Avatars of one size in a row, each overlapping the one before. */
 export function AvatarGroup({ size = "40", more, children, className, ...props }: AvatarGroupProps) {
   const items = React.Children.toArray(children);
-  const ring = "ds-shadow inline-flex shrink-0 rounded-avatar [--ds-lift:var(--shadow-avatar-group)]";
+  const ring = GROUP_RING;
   return (
     <GroupSize.Provider value={size}>
       <div className={cn("flex items-center", className)} {...props}>
@@ -240,7 +283,7 @@ export function AvatarGroup({ size = "40", more, children, className, ...props }
         {more != null && more > 0 && (
           <span
             aria-label={`${more} more`}
-            className={cn(ring, items.length > 0 && OVERLAP[size], SIZE[size], "items-center justify-center bg-bg-weak-50 text-text-sub-600")}
+            className={cn(ring, items.length > 0 && OVERLAP[size], MORE[size], "items-center justify-center bg-bg-weak-50 text-text-sub-600")}
           >
             +{more}
           </span>
@@ -254,34 +297,55 @@ export function AvatarGroup({ size = "40", more, children, className, ...props }
 
 export type CompactAvatarGroupProps = React.ComponentProps<"div"> & {
   size?: "40" | "32" | "24";
-  /** default: bg/white-0. stroke: also a 1px stroke/soft-200 edge outside. */
+  /** default: bg/white-0 and the card shadow. stroke: also a 1px
+   *  stroke/soft-200 edge outside. */
   variant?: "default" | "stroke";
   /** How many more people: "+4" after the avatars. */
   more?: number;
 };
 
-/** A pill holding up to three avatars overlapping by 2, then the count. */
+/** Each size's right side, gap before the count and the count's type
+ *  (Compact Avatar Group [1.1], node 2906:14962). Written out so Tailwind
+ *  sees them. */
+const COMPACT: Record<"40" | "32" | "24", { pill: string; count: string }> = {
+  "40": { pill: "pr-avatar-compact-40-right", count: "ms-avatar-compact-40-count-gap text-paragraph-md" },
+  "32": { pill: "pr-avatar-compact-32-right", count: "ms-avatar-compact-32-count-gap text-paragraph-sm" },
+  "24": { pill: "pr-avatar-compact-24-right", count: "ms-avatar-compact-24-count-gap text-paragraph-xs" },
+};
+
+/** A pill holding up to three avatars overlapping by 2, then the count. As
+ *  the Figma draws it: the card shadow, each avatar with the group's 2px
+ *  stroke/white-0 ring outside it (filling the pill's 2px padding), and on
+ *  Stroke a 1px stroke/soft-200 edge OUTSIDE the pill. The Figma's pixels,
+ *  top to bottom (node 2906:15200): the edge, 2px of padding, the 40
+ *  avatar, 2px, the edge. Drawn inside, the avatars' rings covered it and
+ *  the avatars looked to touch the edge. */
 export function CompactAvatarGroup({ size = "32", variant = "default", more, children, className, ...props }: CompactAvatarGroupProps) {
   const items = React.Children.toArray(children).slice(0, 3);
+  const z = COMPACT[size];
   return (
     <GroupSize.Provider value={size}>
       <div
         className={cn(
-          "inline-flex items-center rounded-avatar-compact bg-bg-white-0 py-avatar-compact-y pl-avatar-compact-left pr-avatar-compact-right",
-          variant === "stroke" && "ds-shadow [--ds-lift:var(--shadow-avatar-compact-stroke)]",
+          "ds-shadow lift-card inline-flex items-center rounded-avatar-compact bg-bg-white-0 py-avatar-compact-y pl-avatar-compact-left",
+          z.pill,
+          variant === "stroke" && "outline-1 outline-offset-0 outline-solid outline-(--stroke-soft-200)",
           className,
         )}
         {...props}
       >
         <span className="flex items-center">
           {items.map((child, i) => (
-            <span key={i} className={cn("inline-flex shrink-0", i > 0 && "-ms-avatar-compact-overlap")}>
+            <span
+              key={i}
+              className={cn(GROUP_RING, i > 0 && "-ms-avatar-compact-overlap")}
+            >
               {child}
             </span>
           ))}
         </span>
         {more != null && more > 0 && (
-          <span aria-label={`${more} more`} className="ms-avatar-compact-count-gap text-paragraph-sm text-text-sub-600">
+          <span aria-label={`${more} more`} className={cn(z.count, "text-text-sub-600")}>
             +{more}
           </span>
         )}

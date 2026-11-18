@@ -58,6 +58,7 @@
 @import "./sizes/accordion.css";
 @import "./sizes/table.css";
 @import "./sizes/scroll.css";
+@import "./sizes/page-header.css";
 @import "./sizes/step-drawer.css";
 @import "./sizes/build-chat.css";
 @import "./sizes/step-menu.css";

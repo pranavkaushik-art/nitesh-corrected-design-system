@@ -190,8 +190,8 @@ export function FileUploadArea({
           <UploadCloudIcon />
         </span>
         <div className="relative flex flex-col gap-file-upload-area-words-gap">
-          <p className={cn("text-label-sm", disabled ? "text-text-disabled-300" : "text-text-strong-950")}>{title}</p>
-          <p className={cn("text-paragraph-xs", disabled ? "text-text-disabled-300" : "text-text-sub-600")}>{description}</p>
+          <p className={cn("m-0 text-label-sm", disabled ? "text-text-disabled-300" : "text-text-strong-950")}>{title}</p>
+          <p className={cn("m-0 text-paragraph-xs", disabled ? "text-text-disabled-300" : "text-text-sub-600")}>{description}</p>
         </div>
         {/* The input is the keyboard's way in, so the button stays out of the tab order. */}
         <Button
@@ -319,8 +319,8 @@ export function FileUploadCard({
         <FileFormatIcon label={f.label} color={f.color} />
         <div className="flex min-w-0 flex-1 flex-col items-start gap-file-upload-card-retry-gap">
           <div className="flex w-full min-w-0 flex-col gap-file-upload-card-words-gap">
-            <p className="truncate text-label-sm text-text-strong-950">{name}</p>
-            <p className="flex items-center gap-file-upload-card-line-gap text-paragraph-xs">
+            <p className="m-0 truncate text-label-sm text-text-strong-950">{name}</p>
+            <p className="m-0 flex items-center gap-file-upload-card-line-gap text-paragraph-xs">
               <span className="text-text-sub-600">{size}</span>
               <span aria-hidden className="text-text-sub-600">
                 ∙
@@ -476,8 +476,8 @@ export function ImageUpload({
       {vertical ? (
         <div className="flex flex-col items-start gap-file-upload-image-buttons-top">
           <div className="flex flex-col gap-file-upload-image-words-gap">
-            <p className="text-label-md text-text-strong-950">{title}</p>
-            <p className="text-paragraph-sm text-text-sub-600">{description}</p>
+            <p className="m-0 text-label-md text-text-strong-950">{title}</p>
+            <p className="m-0 text-paragraph-sm text-text-sub-600">{description}</p>
           </div>
           {buttons}
         </div>

@@ -4,6 +4,19 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { StatusCompletedIcon, StatusDisabledIcon, StatusFailedIcon, StatusInformationIcon, StatusPendingIcon } from "@/components/ui/icons";
 
+/** flashlight-fill: the icon the Figma draws in a Left or Right Icon badge
+ *  (Badge [1.1], nodes 119:1824 and 119:2385), copied from its export and
+ *  drawn in currentColor. Its shape sits ~3px inside the box, which is what
+ *  makes the 2px icon-to-word gap read as the Figma's; an edge-to-edge glyph
+ *  looks like it touches the word. Scales to the 12px (Small) box. */
+export function BadgeFlashlightIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden data-icon="BadgeFlashlightIcon" {...props}>
+      <path d="M8.6 6.8H12.8L7.4 14.6V9.2H3.2L8.6 1.4V6.8Z" />
+    </svg>
+  );
+}
+
 /**
  * The design system's Badge and Status Badge, built from
  * design-system/components/badge.md (Nitesh's Figma "Badge [1.1]", node

@@ -1,0 +1,70 @@
+import * as React from "react";
+
+import type { AlertStatus } from "@/components/ds/alert";
+
+/**
+ * The Alert's own icons, the exact Remix glyphs in Nitesh's Figma ("Alert &
+ * Notification & Toast [1.1]", node 169:2399): filled status icons and the
+ * thin close-line. Paths are copied from the Figma's 16x16 exports, so they
+ * scale to the 20px Small/Large icon box as drawn. Colour comes from
+ * currentColor; the close icon's 72% strength stays on the alert's
+ * --alert-close tokens, not here.
+ *
+ * The Alert and the Banner use these (the Banner's Figma draws the same glyphs).
+ */
+
+function glyph(d: string, name: string) {
+  function Glyph(props: React.SVGProps<SVGSVGElement>) {
+    return (
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden data-icon={name} {...props}>
+        <path d={d} />
+      </svg>
+    );
+  }
+  Glyph.displayName = name;
+  return Glyph;
+}
+
+/** error-warning-fill */
+const ErrorFill = glyph(
+  "M8 14C4.6862 14 2 11.3138 2 8C2 4.6862 4.6862 2 8 2C11.3138 2 14 4.6862 14 8C14 11.3138 11.3138 14 8 14ZM7.4 9.8V11H8.6V9.8H7.4ZM7.4 5V8.6H8.6V5H7.4Z",
+  "AlertErrorFill",
+);
+
+/** alert-fill */
+const WarningFill = glyph(
+  "M8.49364 2.6216L13.9236 12.1351C13.9737 12.2228 14 12.3222 14 12.4234C14 12.5246 13.9737 12.6241 13.9236 12.7117C13.8736 12.7994 13.8017 12.8721 13.715 12.9227C13.6283 12.9734 13.5301 13 13.43 13H2.57C2.46995 13 2.37165 12.9734 2.285 12.9227C2.19835 12.8721 2.12639 12.7994 2.07636 12.7117C2.02634 12.6241 2 12.5246 2 12.4234C2 12.3222 2.02634 12.2228 2.07637 12.1351L7.50636 2.6216C7.5564 2.53395 7.62835 2.46117 7.715 2.41057C7.80165 2.35997 7.89995 2.33333 8 2.33333C8.10005 2.33333 8.19835 2.35997 8.285 2.41057C8.37165 2.46117 8.4436 2.53395 8.49364 2.6216ZM7.42998 10.1171V11.2703H8.57002V10.1171H7.42998ZM7.42998 6.08106V8.96395H8.57002V6.08106H7.42998Z",
+  "AlertWarningFill",
+);
+
+/** select-box-circle-fill */
+const SuccessFill = glyph(
+  "M8 14C4.6862 14 2 11.3138 2 8C2 4.6862 4.6862 2 8 2C11.3138 2 14 4.6862 14 8C14 11.3138 11.3138 14 8 14ZM7.4018 10.4L11.6438 6.1574L10.7954 5.309L7.4018 8.7032L5.7044 7.0058L4.856 7.8542L7.4018 10.4Z",
+  "AlertSuccessFill",
+);
+
+/** information-fill */
+const InformationFill = glyph(
+  "M8 14C4.6862 14 2 11.3138 2 8C2 4.6862 4.6862 2 8 2C11.3138 2 14 4.6862 14 8C14 11.3138 11.3138 14 8 14ZM7.4 7.4V11H8.6V7.4H7.4ZM7.4 5V6.2H8.6V5H7.4Z",
+  "AlertInformationFill",
+);
+
+/** magic-fill */
+const FeatureFill = glyph(
+  "M9.9344 10.1048L8.6066 12.8948C8.58148 12.9476 8.5439 12.9934 8.4971 13.0284C8.4503 13.0634 8.39568 13.0864 8.33798 13.0956C8.28027 13.1047 8.2212 13.0997 8.16587 13.0809C8.11054 13.0622 8.06061 13.0302 8.0204 12.9878L5.8952 10.7444C5.83842 10.6845 5.7628 10.646 5.681 10.6352L2.6168 10.2344C2.55891 10.2268 2.50374 10.2052 2.45605 10.1715C2.40837 10.1378 2.36959 10.093 2.34308 10.041C2.31656 9.98893 2.3031 9.93123 2.30385 9.87284C2.30461 9.81445 2.31955 9.75713 2.3474 9.7058L3.8246 6.9914C3.86387 6.91881 3.877 6.83492 3.8618 6.7538L3.296 3.716C3.28526 3.6585 3.28868 3.59925 3.30599 3.54337C3.32329 3.4875 3.35395 3.43668 3.39532 3.39532C3.43668 3.35395 3.4875 3.32329 3.54337 3.30599C3.59925 3.28868 3.6585 3.28526 3.716 3.296L6.7538 3.8618C6.83492 3.877 6.91881 3.86387 6.9914 3.8246L9.7058 2.3474C9.75717 2.31954 9.81454 2.30461 9.87297 2.30389C9.9314 2.30317 9.98913 2.31668 10.0412 2.34327C10.0932 2.36985 10.138 2.40869 10.1717 2.45646C10.2053 2.50422 10.2269 2.55945 10.2344 2.6174L10.6352 5.681C10.646 5.7628 10.6845 5.83842 10.7444 5.8952L12.9878 8.0204C13.0302 8.06061 13.0622 8.11054 13.0809 8.16587C13.0997 8.2212 13.1047 8.28027 13.0956 8.33798C13.0864 8.39568 13.0634 8.4503 13.0284 8.4971C12.9934 8.5439 12.9476 8.58148 12.8948 8.6066L10.1048 9.9344C10.0301 9.96994 9.96994 10.0301 9.9344 10.1048ZM10.4126 11.261L11.261 10.4126L13.8068 12.9578L12.9578 13.8068L10.4126 11.261Z",
+  "AlertFeatureFill",
+);
+
+/** close-line */
+export const AlertCloseLine = glyph(
+  "M8 7.1516L10.97 4.1816L11.8184 5.03L8.8484 8L11.8184 10.97L10.97 11.8184L8 8.8484L5.03 11.8184L4.1816 10.97L7.1516 8L4.1816 5.03L5.03 4.1816L8 7.1516Z",
+  "AlertCloseLine",
+);
+
+export const ALERT_ICON: Record<AlertStatus, React.ComponentType> = {
+  error: ErrorFill,
+  warning: WarningFill,
+  success: SuccessFill,
+  information: InformationFill,
+  feature: FeatureFill,
+};

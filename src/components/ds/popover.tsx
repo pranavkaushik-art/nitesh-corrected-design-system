@@ -227,13 +227,22 @@ export function PopoverPanel({
             </KeyIcon>
           )}
           {words && (
-            <div className={cn("flex flex-col gap-popover-words-gap", icon == null && onClose && "pr-popover-words-clear")}>
+            // As the Figma draws it (Popover [1.1], node 175333:181969): the
+            // words 280 wide, title 24 tall, 4, the description. m-0: the base
+            // `p` rule (typography.css) added 20 and 17.5 above and below,
+            // which made the box 183 tall, not 108. Only the title keeps
+            // clear of the close button; the description sits below it and
+            // takes the full 280, as drawn.
+            <div className="flex flex-col gap-popover-words-gap">
               {title != null && (
-                <p id={titleId} className="text-label-md text-text-strong-950">
+                <p
+                  id={titleId}
+                  className={cn("m-0 text-label-md text-text-strong-950", icon == null && onClose && "pr-popover-words-clear")}
+                >
                   {title}
                 </p>
               )}
-              {description != null && <p className="text-paragraph-sm text-text-sub-600">{description}</p>}
+              {description != null && <p className="m-0 text-paragraph-sm text-text-sub-600">{description}</p>}
             </div>
           )}
           {children}

@@ -112,12 +112,14 @@ export function FileUploadSection() {
         <div className="flex flex-wrap items-start gap-space-24">
           {AREA_STATES.map((s) => (
             <Labelled key={s.id} label={s.label}>
-              <FileUploadArea
-                className="w-file-upload-figma max-w-full"
-                data-force={s.id === "hover" || s.id === "focus" ? s.id : undefined}
-                disabled={s.id === "disabled"}
-                error={s.id === "error" ? "This file is over 50 MB." : undefined}
-              />
+              {/* The Figma's 400: on a wrapper, since the area's own w-full would win. */}
+              <div className="w-file-upload-figma max-w-full">
+                <FileUploadArea
+                  data-force={s.id === "hover" || s.id === "focus" ? s.id : undefined}
+                  disabled={s.id === "disabled"}
+                  error={s.id === "error" ? "This file is over 50 MB." : undefined}
+                />
+              </div>
             </Labelled>
           ))}
         </div>

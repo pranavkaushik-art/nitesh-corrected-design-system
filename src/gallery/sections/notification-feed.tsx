@@ -138,7 +138,8 @@ function LivePanel() {
                 <NotificationItem
                   key={id}
                   {...item}
-                  avatar={<Avatar size="40" name={name} topMark={unread.has(id) ? "notification" : undefined} />}
+                  avatar={<Avatar size="40" name={name} />}
+                  unread={unread.has(id)}
                   onClick={() => setUnread((u) => new Set([...u].filter((x) => x !== id)))}
                   onMore={noop}
                 />
@@ -210,7 +211,8 @@ export function NotificationFeedSection() {
                     <div className="w-notification-feed max-w-full p-notification-feed-list-pad">
                       <NotificationItem
                         {...item}
-                        avatar={<Avatar size="40" name={name} topMark={state.id === "default" ? "notification" : undefined} />}
+                        avatar={<Avatar size="40" name={name} />}
+                        unread={state.id === "default"}
                         onMore={noop}
                         data-force={state.id === "default" ? undefined : state.id}
                       />

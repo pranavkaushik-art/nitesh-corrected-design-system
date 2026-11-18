@@ -47,6 +47,7 @@ import { DrawerSection } from "./drawer";
 import { AccordionSection } from "./accordion";
 import { TableSection } from "./table";
 import { ScrollSection } from "./scroll";
+import { PageHeaderSection } from "./page-header";
 
 /** Every section of the Components page, in the order of the index. Add a
  *  component: write sections/<name>.tsx and list it here. */
@@ -98,4 +99,5 @@ export const SECTIONS: { id: string; name: string; page: string; Component: Comp
   { id: "accordion", name: "Accordion", page: "accordion.md", Component: AccordionSection },
   { id: "table", name: "Table", page: "table.md", Component: TableSection },
   { id: "scroll", name: "Scroll", page: "scroll.md", Component: ScrollSection },
+  { id: "header", name: "Header", page: "page-header.md", Component: PageHeaderSection },
 ];

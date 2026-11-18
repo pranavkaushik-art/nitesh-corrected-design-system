@@ -33,7 +33,7 @@ import { ArrowDownIcon, ArrowUpIcon, FilterIcon, MoreIcon, PaperclipIcon, Settin
  *                           count Badge), the filter button (onFilter). Radix Tabs.
  *   NotificationFeedList    the items, with a Content Divider between each two;
  *                           the up and down arrow keys move between items
- *   NotificationItem        avatar (an Avatar 40; unread: topMark="notification"),
+ *   NotificationItem        avatar (an Avatar 40), unread (the red status dot),
  *                           label, time, picture, description, and one of
  *                           actions (Button type), file (File type), message
  *                           (Message type); onMore shows the more button on hover
@@ -86,7 +86,7 @@ export function NotificationFeedHeader({ title = "Notifications", onMarkAllRead,
       {...props}
     >
       <div className={cn("contents", NO_PARTS)}>
-        <p className="min-w-0 flex-1 text-label-md text-text-strong-950">{title}</p>
+        <p className="m-0 min-w-0 flex-1 text-label-md text-text-strong-950">{title}</p>
         {onMarkAllRead && (
           <LinkButton variant="primary" size="md" onClick={onMarkAllRead}>
             Mark all as read
@@ -220,8 +220,10 @@ export function NotificationQuiet({ className, ...props }: React.ComponentProps<
 }
 
 export type NotificationItemProps = Omit<React.ComponentProps<"div">, "children"> & {
-  /** An Avatar, 40. Unread: give it topMark="notification". */
+  /** An Avatar, 40. */
   avatar: React.ReactNode;
+  /** Unread: the Figma's "Top Status [1.1]", a red dot in a white ring on the avatar's top right. */
+  unread?: boolean;
   /** Names and things in the label style; wrap the words between them in NotificationQuiet. */
   label: React.ReactNode;
   /** "8 min ago". */
@@ -242,6 +244,7 @@ export type NotificationItemProps = Omit<React.ComponentProps<"div">, "children"
 
 export function NotificationItem({
   avatar,
+  unread,
   label,
   time,
   picture,
@@ -285,7 +288,19 @@ export function NotificationItem({
       )}
       {...props}
     >
-      <span className={cn("flex shrink-0", NO_PARTS)}>{avatar}</span>
+      <span className={cn("relative flex shrink-0", NO_PARTS)}>
+        {avatar}
+        {unread && (
+          // Top Status [1.1]: 9 of bg/white-0 round 6.75 of state/error, centred 37 across and 9 down the 40 avatar.
+          <span
+            role="img"
+            aria-label="Unread"
+            className="ds-shadow absolute top-notification-feed-status-top left-notification-feed-status-left flex size-notification-feed-status items-center justify-center rounded-full bg-bg-white-0 [--ds-lift:var(--shadow-notification-feed-status)]"
+          >
+            <span className="size-notification-feed-status-dot rounded-full bg-state-error-base" />
+          </span>
+        )}
+      </span>
 
       <div
         className={cn(
@@ -295,7 +310,7 @@ export function NotificationItem({
         )}
       >
         <div className="flex flex-col gap-notification-feed-item-words-gap">
-          <p className="text-label-sm text-text-strong-950">{label}</p>
+          <p className="m-0 text-label-sm text-text-strong-950">{label}</p>
           <div className="flex min-w-0 items-center gap-notification-feed-item-detail-gap text-paragraph-xs text-text-sub-600">
             <span className="shrink-0">{time}</span>
             {(picture != null || description != null) && (
@@ -365,7 +380,7 @@ export function NotificationFeedFooter({ onManage, start, className, ...props }:
       {...props}
     >
       {start}
-      <p className="flex items-center gap-notification-feed-footer-hint-gap text-paragraph-xs text-text-sub-600">
+      <p className="m-0 flex items-center gap-notification-feed-footer-hint-gap text-paragraph-xs text-text-sub-600">
         <span>Use</span>
         <Key label="Up arrow">
           <ArrowUpIcon />

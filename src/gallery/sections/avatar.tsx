@@ -10,12 +10,17 @@ import {
   type AvatarTopMarkType,
 } from "@/components/ds/avatar";
 import { Group, Labelled } from "../parts";
+import { AvatarFigmaGrid } from "./avatar-grid";
 
 const SIZES: AvatarSize[] = ["80", "72", "64", "56", "48", "40", "32", "24", "20"];
 const COLORS: { id: AvatarColor; label: string }[] = [
   { id: "gray", label: "Gray" },
   { id: "blue", label: "Blue" },
   { id: "red", label: "Red" },
+  { id: "yellow", label: "Yellow" },
+  { id: "purple", label: "Purple" },
+  { id: "sky", label: "Sky" },
+  { id: "spirit", label: "Spirit" },
 ];
 const TOP_MARKS: { id: AvatarTopMarkType; label: string }[] = [
   { id: "favorite", label: "Favorite" },
@@ -29,6 +34,14 @@ const BOTTOM_MARKS: { id: AvatarBottomMarkType; label: string }[] = [
   { id: "busy", label: "Busy" },
 ];
 const PEOPLE = ["Nitesh Arora", "Maya Chen", "Sam Okafor", "Lena Fischer"];
+/** The Figma's Avatar Group (node 581:6198): the first four personas, their
+ *  Illustration pictures on their colours. */
+const GROUP_PEOPLE: { name: string; slug: string; color: AvatarColor }[] = [
+  { name: "Kumar Sidhartha", slug: "kumar-sidhartha", color: "gray" },
+  { name: "Erik Cofield", slug: "erik-cofield", color: "yellow" },
+  { name: "Audree Grubesic", slug: "audree-grubesic", color: "spirit" },
+  { name: "Sneha Kumari", slug: "sneha-kumari", color: "sky" },
+];
 
 /* eslint-disable @next/next/no-img-element */
 const companyLogo = <img src="/brand/microsoft.svg" alt="Microsoft" />;
@@ -36,23 +49,8 @@ const companyLogo = <img src="/brand/microsoft.svg" alt="Microsoft" />;
 export function AvatarSection() {
   return (
     <div className="flex flex-col gap-space-40">
-      <Group label="Sizes: initials and the placeholder">
-        <div className="flex flex-col gap-space-16">
-          <div className="flex flex-wrap items-end gap-space-24">
-            {SIZES.map((size) => (
-              <Labelled key={size} label={size}>
-                <Avatar size={size} name="Nitesh Arora" color="blue" />
-              </Labelled>
-            ))}
-          </div>
-          <div className="flex flex-wrap items-end gap-space-24">
-            {SIZES.map((size) => (
-              <Labelled key={size} label={size}>
-                <Avatar size={size} />
-              </Labelled>
-            ))}
-          </div>
-        </div>
+      <Group label="Every size: 12 personas across, Image, Solid BG, Memoji, Illustration, Text and Icon down, as the Figma draws it">
+        <AvatarFigmaGrid />
       </Group>
 
       <Group label="Colours, behind initials and the placeholder">
@@ -120,8 +118,8 @@ export function AvatarSection() {
           {SIZES.map((size) => (
             <Labelled key={size} label={size}>
               <AvatarGroup size={size} more={9}>
-                {PEOPLE.map((name, i) => (
-                  <Avatar key={name} name={i === 2 ? undefined : name} />
+                {GROUP_PEOPLE.map((p) => (
+                  <Avatar key={p.slug} src={`/avatars/${p.slug}-illustration.png`} alt={p.name} color={p.color} />
                 ))}
               </AvatarGroup>
             </Labelled>
@@ -130,13 +128,16 @@ export function AvatarSection() {
       </Group>
 
       <Group label="Compact Avatar Group">
-        <div className="flex flex-wrap items-end gap-space-32">
+        {/* On bg/weak-50, as the Figma frames it (Compact Avatar Group [1.1],
+            dark 175323:181703: #262626, 24 in and 24 apart), so the pill's
+            own bg/white-0 shows against it. */}
+        <div className="grid w-fit grid-cols-[repeat(3,max-content)] items-end gap-space-24 bg-bg-weak-50 p-space-24">
           {(["default", "stroke"] as const).map((variant) =>
             (["40", "32", "24"] as const).map((size) => (
               <Labelled key={`${variant}-${size}`} label={`${variant === "default" ? "Default" : "Stroke"}, ${size}`}>
                 <CompactAvatarGroup size={size} variant={variant} more={4}>
-                  {PEOPLE.slice(0, 3).map((name) => (
-                    <Avatar key={name} name={name} />
+                  {GROUP_PEOPLE.slice(0, 3).map((p) => (
+                    <Avatar key={p.slug} src={`/avatars/${p.slug}-illustration.png`} alt={p.name} color={p.color} />
                   ))}
                 </CompactAvatarGroup>
               </Labelled>

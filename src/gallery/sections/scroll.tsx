@@ -43,9 +43,12 @@ const PEOPLE = [
 /** A long list to scroll, clear of the track. */
 function People({ pad }: { pad: string }) {
   return (
-    <ul className={`flex flex-col gap-space-8 py-space-12 pl-space-12 ${pad}`}>
+    // list-inside: the bullet sits inside the 12px left padding instead of
+    // hanging on the edge. m-0 on the li drops the base 0.5em margins
+    // (typography.css) so the rows are 8px apart.
+    <ul className={`m-0 flex list-inside list-disc flex-col gap-space-8 py-space-12 pl-space-12 ${pad}`}>
       {PEOPLE.map((p) => (
-        <li key={p} className="text-paragraph-sm text-text-strong-950">
+        <li key={p} className="m-0 text-paragraph-sm text-text-strong-950">
           {p}
         </li>
       ))}

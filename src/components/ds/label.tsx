@@ -70,7 +70,7 @@ const HINT_ICON = { default: "text-icon-soft-400", error: "text-state-error-base
 
 export function HintText({ children, state = "default", icon, className, ...props }: HintTextProps) {
   return (
-    <p className={cn("flex items-center gap-label-hint-gap text-paragraph-xs", HINT_TEXT[state], className)} {...props}>
+    <p className={cn("m-0 flex items-center gap-label-hint-gap text-paragraph-xs", HINT_TEXT[state], className)} {...props}>
       {icon && (
         <span aria-hidden className={cn("flex shrink-0 [&_svg]:size-label-hint-icon", HINT_ICON[state])}>
           {icon}

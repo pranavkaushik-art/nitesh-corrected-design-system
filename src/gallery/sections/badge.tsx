@@ -1,7 +1,6 @@
 "use client";
 
-import { Badge, StatusBadge, type BadgeColor, type BadgeVariant, type StatusBadgeStatus } from "@/components/ds/badge";
-import { StarIcon } from "@/components/ui/icons";
+import { Badge, BadgeFlashlightIcon, StatusBadge, type BadgeColor, type BadgeVariant, type StatusBadgeStatus } from "@/components/ds/badge";
 import { Group, Labelled } from "../parts";
 
 const VARIANTS: { id: BadgeVariant; label: string }[] = [
@@ -39,10 +38,10 @@ function BadgeRow({ variant, color, size, disabled }: { variant: BadgeVariant; c
       <Badge {...common} dot>
         Badge
       </Badge>
-      <Badge {...common} leadingIcon={<StarIcon />}>
+      <Badge {...common} leadingIcon={<BadgeFlashlightIcon />}>
         Badge
       </Badge>
-      <Badge {...common} trailingIcon={<StarIcon />}>
+      <Badge {...common} trailingIcon={<BadgeFlashlightIcon />}>
         Badge
       </Badge>
       <Badge {...common} number>

@@ -1,7 +1,7 @@
 "use client";
 
-import { Accordion, AccordionItem } from "@/components/ds/accordion";
-import { InfoIcon } from "@/components/ui/icons";
+import { Accordion, AccordionItem, AccordionQuestionIcon } from "@/components/ds/accordion";
+
 import { Group, Labelled } from "../parts";
 
 const TITLE = "How does billing work?";
@@ -36,7 +36,7 @@ function One({
       <AccordionItem
         value="one"
         title={TITLE}
-        icon={icon ? <InfoIcon /> : undefined}
+        icon={icon ? <AccordionQuestionIcon /> : undefined}
         flip={flip}
         disabled={state === "disabled"}
         data-force={state === "hover" || state === "focus" ? state : undefined}
@@ -64,16 +64,16 @@ export function AccordionSection() {
 
       <Group label="Try it: a list, 10 apart, one open at a time">
         <Accordion type="single" collapsible defaultValue="billing" className="w-accordion-figma">
-          <AccordionItem value="billing" title={TITLE} icon={<InfoIcon />}>
+          <AccordionItem value="billing" title={TITLE} icon={<AccordionQuestionIcon />}>
             {WORDS}
           </AccordionItem>
-          <AccordionItem value="seats" title="Who counts as a seat?" icon={<InfoIcon />}>
+          <AccordionItem value="seats" title="Who counts as a seat?" icon={<AccordionQuestionIcon />}>
             Everyone who can sign in to the workspace. People you share a single report with do not.
           </AccordionItem>
-          <AccordionItem value="cancel" title="Can I cancel at any time?" icon={<InfoIcon />}>
+          <AccordionItem value="cancel" title="Can I cancel at any time?" icon={<AccordionQuestionIcon />}>
             Yes. The workspace stays open until the end of the month you paid for, then turns read-only.
           </AccordionItem>
-          <AccordionItem value="data" title="What happens to my data when I leave?" icon={<InfoIcon />}>
+          <AccordionItem value="data" title="What happens to my data when I leave?" icon={<AccordionQuestionIcon />}>
             You can export every chat, run and file for 30 days. After that it is deleted for good.
           </AccordionItem>
         </Accordion>

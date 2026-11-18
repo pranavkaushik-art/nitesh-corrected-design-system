@@ -5,7 +5,8 @@ import * as ToastPrimitive from "@radix-ui/react-toast";
 
 import { cn } from "@/lib/utils";
 import { LinkButton, type LinkButtonProps } from "@/components/ds/link-button";
-import { AlertIcon, CheckCircleIcon, CloseIcon, ErrorIcon, FeatureIcon, InfoIcon } from "@/components/ui/icons";
+import { AlertIcon, CheckCircleIcon, ErrorIcon, FeatureIcon, InfoIcon } from "@/components/ui/icons";
+import { ALERT_ICON, AlertCloseLine } from "@/components/ds/alert-icons";
 
 /**
  * The design system's Alert, Toast and Notification, built from
@@ -177,6 +178,8 @@ export function Alert({
   ...props
 }: AlertProps) {
   const s = ALERT_STATUS[status];
+  // The Figma's filled Remix glyph; the Banner keeps s.Icon.
+  const StatusIcon = ALERT_ICON[status];
   const look = LOOK[variant];
   const z = SIZE[size];
   const fill = variant === "filled" ? s.filled : variant === "light" ? s.light : variant === "lighter" ? s.lighter : "";
@@ -191,14 +194,14 @@ export function Alert({
         {...props}
       >
         <span aria-hidden className={cn("flex shrink-0 items-center justify-center", z.icon, variant !== "filled" && s.icon)}>
-          {icon ?? <s.Icon />}
+          {icon ?? <StatusIcon />}
         </span>
 
         {size === "lg" ? (
           <div className={cn("flex min-w-0 flex-auto flex-col gap-alert-lg-body-gap", NO_PARTS)}>
             <div className="flex flex-col gap-alert-lg-text-gap">
-              <p className={z.title}>{title}</p>
-              {description != null && <p className={cn("text-paragraph-sm", look.description)}>{description}</p>}
+              <p className={cn("m-0", z.title)}>{title}</p>
+              {description != null && <p className={cn("m-0 text-paragraph-sm", look.description)}>{description}</p>}
             </div>
             {linkItems.length > 0 && (
               <div className="flex flex-wrap items-center gap-alert-lg-links-gap">
@@ -218,7 +221,9 @@ export function Alert({
         ) : (
           <>
             {/* The title fills the space between the icon and the link. */}
-            <p className={cn("min-w-0 flex-auto", z.title)}>{title}</p>
+            {/* m-0: the base `p` rule (typography.css) adds 1.25em above and
+                below, which made X-Small 62 tall instead of 32. */}
+            <p className={cn("m-0 min-w-0 flex-auto", z.title)}>{title}</p>
             {linkItems.length > 0 && <span className={cn("contents", NO_PARTS)}>{linkItems}</span>}
           </>
         )}
@@ -237,7 +242,7 @@ export function Alert({
               closeButtonProps?.className,
             )}
           >
-            <CloseIcon />
+            <AlertCloseLine />
           </button>
         )}
       </div>

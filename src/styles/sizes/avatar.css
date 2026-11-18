@@ -46,10 +46,20 @@
 
   /* ---- Compact Avatar Group: a pill ---- */
   --spacing-avatar-compact-overlap: var(--space-2);
-  --spacing-avatar-compact-y: var(--space-2); /* top and bottom */
-  --spacing-avatar-compact-left: var(--space-2);
-  --spacing-avatar-compact-right: var(--space-10);
-  --spacing-avatar-compact-count-gap: var(--space-8); /* avatars to "+4" */
+  /* Ours (17 Nov 2026, asked for): 4, the Figma's 2 plus 2. The avatars'
+     2px ring fills the Figma's 2, so on dark (pill and ring both #171717)
+     the avatars looked to touch the edge; the extra 2 is the space that
+     shows. Left gets it too, so the space is even around the avatars. */
+  --spacing-avatar-compact-y: var(--space-4); /* top and bottom */
+  --spacing-avatar-compact-left: var(--space-4);
+  /* Right side and avatars-to-"+4" gap, per size (Compact Avatar Group
+     [1.1], node 2906:14962): 40 is 12 and 10, 32 is 10 and 8, 24 is 8 and 6. */
+  --spacing-avatar-compact-40-right: var(--space-12);
+  --spacing-avatar-compact-40-count-gap: var(--space-10);
+  --spacing-avatar-compact-32-right: var(--space-10);
+  --spacing-avatar-compact-32-count-gap: var(--space-8);
+  --spacing-avatar-compact-24-right: var(--space-8);
+  --spacing-avatar-compact-24-count-gap: var(--space-6);
   --radius-avatar-compact: var(--corner-full);
 }
 
@@ -59,8 +69,10 @@
   /* The ring in bg/white-0 that cuts a corner mark out of the avatar.
      Not on the page: its width, 2 like the group's ring. */
   --shadow-avatar-mark: 0 0 0 var(--space-2) var(--bg-white-0);
-  /* Avatar Group: a 2px ring in stroke/white-0 outside each avatar. */
+  /* Avatar Group and Compact Avatar Group: a 2px ring in stroke/white-0
+     OUTSIDE each avatar, as the Figma renders it (the 336 x 80 group draws
+     340 x 84; Avatar Group 581:6198, dark 175321:181232). #ffffff on light,
+     #171717 on dark. Each avatar sits over the one before, so its ring cuts
+     a curved gap into its neighbour. */
   --shadow-avatar-group: 0 0 0 var(--space-2) var(--stroke-white-0);
-  /* Compact Avatar Group, Stroke: a 1px stroke/soft-200 edge outside. */
-  --shadow-avatar-compact-stroke: 0 0 0 var(--space-1) var(--stroke-soft-200);
 }

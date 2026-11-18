@@ -36,8 +36,8 @@ function LiveExample() {
   return (
     <div className="flex max-w-2xl flex-col gap-space-32">
       <div className="flex flex-col">
-        <div className="flex items-center gap-space-12">
-          <p className="min-w-0 flex-1 text-label-md text-text-sub-600">Activities</p>
+        <div className="flex items-center gap-space-16">
+          <p className="m-0 min-w-0 flex-1 text-label-md text-text-sub-600">Activities</p>
           <CompactSelect type="basic" size="xs" aria-label="Period" defaultValue="7">
             <SelectItem value="1" code="Today">
               Today
@@ -49,7 +49,9 @@ function LiveExample() {
               Last 30 days
             </SelectItem>
           </CompactSelect>
-          <Switch defaultChecked aria-label="Show new activity" />
+          <span className="flex pl-space-4">
+            <Switch defaultChecked aria-label="Show new activity" />
+          </span>
         </div>
         <TextInput className="mt-space-20" type="search" size="sm" placeholder="Search" aria-label="Search activities" />
         <div className="mt-space-16 flex flex-wrap gap-space-10">

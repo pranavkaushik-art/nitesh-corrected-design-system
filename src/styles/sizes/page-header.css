@@ -1,0 +1,34 @@
+/* Size tokens for the Page Header (Figma "Page Header [1.1]", node
+   3829:27898: Basic, Avatar, Left Icon, Brand and Company, each 1168 x 88).
+   Read by components/ds/page-header.tsx. */
+
+@theme {
+  /* The bar: 24 in at the sides (ours, 17 Nov 2026, asked for; the Figma
+     draws 32), 20 top and bottom, 12 between its parts. The divider is
+     inset the same 24. */
+  --spacing-page-header-x: var(--space-24);
+  --spacing-page-header-y: var(--space-20);
+  --spacing-page-header-gap: var(--space-12);
+  /* The picture and the words: 14 apart; title over description: 4. */
+  --spacing-page-header-content-gap: var(--space-14);
+  --spacing-page-header-words-gap: var(--space-4);
+  /* The picture on the left (avatar, key icon, brand, company): 48. */
+  --spacing-page-header-picture: var(--space-48);
+  /* Search and notification: 40 squares with a 20 icon. */
+  --spacing-page-header-item: var(--space-40);
+  --spacing-page-header-item-icon: var(--space-20);
+  /* The notification dot: a circle of r 3 at 26,14 in the 40 box, its 2
+     stroke centred on the edge, so 4 of red inside a 2 ring (8 in all). */
+  --spacing-page-header-dot: var(--space-4);
+  --spacing-page-header-dot-inset: var(--space-12);
+  /* The Merlin mark's glyph in its 48 circle (20.75 x 12.6 in a 40 one). */
+  --spacing-page-header-merlin-glyph: 1.5625rem; /* 25 */
+  --radius-page-header-item: var(--corner-4); /* Merlin is square */
+  /* The Figma's frame width, for the Components page only: 1168. */
+  --spacing-page-header-frame: 73rem;
+}
+
+:root {
+  /* The ring around the notification dot, in stroke/white-0 (flips on dark). */
+  --shadow-page-header-dot: 0 0 0 var(--space-2) var(--stroke-white-0);
+}

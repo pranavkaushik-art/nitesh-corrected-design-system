@@ -2,6 +2,8 @@
 
 Nitesh's design system in Merlin's colours: every token, component and rule, the same as Nitesh's Figma library, in code you can run. It started as Neutrino's (8bit's product), so older pages say "Neutrino".
 
+**The full reference:** [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md): the rules, every token and every component with its props and sizes, on one page.
+
 **For Claude:** [CLAUDE.md](CLAUDE.md) holds the rules every session follows: build only from these components and tokens, never a component of its own.
 
 **Figma:** [Nitesh's New Personal Design System](https://www.figma.com/design/Ao3YVgFYdQIF0znq2ToqVl)

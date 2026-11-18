@@ -57,17 +57,17 @@ const InDialog = React.createContext(false);
 
 function Title({ className, children }: { className: string; children: React.ReactNode }) {
   return React.useContext(InDialog) ? (
-    <DialogPrimitive.Title className={className}>{children}</DialogPrimitive.Title>
+    <DialogPrimitive.Title className={cn("m-0", className)}>{children}</DialogPrimitive.Title>
   ) : (
-    <p className={className}>{children}</p>
+    <p className={cn("m-0", className)}>{children}</p>
   );
 }
 
 function Description({ className, children }: { className: string; children: React.ReactNode }) {
   return React.useContext(InDialog) ? (
-    <DialogPrimitive.Description className={className}>{children}</DialogPrimitive.Description>
+    <DialogPrimitive.Description className={cn("m-0", className)}>{children}</DialogPrimitive.Description>
   ) : (
-    <p className={className}>{children}</p>
+    <p className={cn("m-0", className)}>{children}</p>
   );
 }
 

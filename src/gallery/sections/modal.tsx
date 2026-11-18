@@ -79,7 +79,7 @@ const FOOTER_TYPES: { id: ModalFooterType; label: string }[] = [
 ];
 
 const BODY = (
-  <p className="text-paragraph-sm text-text-sub-600">
+  <p className="m-0 text-paragraph-sm text-text-sub-600">
     Everyone you invite can open the workspace&apos;s chats, runs and files. You can change what they can do later.
   </p>
 );
@@ -115,7 +115,7 @@ export function ModalSection() {
               <ModalHeader type="information" title="Release notes" description="What changed in October." />
               <ModalBody>
                 {Array.from({ length: 14 }, (_, i) => (
-                  <p key={i} className="text-paragraph-sm text-text-sub-600">
+                  <p key={i} className="m-0 text-paragraph-sm text-text-sub-600">
                     Runs now show their steps as they happen, and a failed step says why it failed and how to fix it.
                   </p>
                 ))}
@@ -141,11 +141,22 @@ export function ModalSection() {
       </Group>
 
       <Group label="The backdrop and the box (overlay/gray behind, the box in the middle)">
-        <ModalBackdrop className="rounded-corner-12 py-space-48">
+        {/* Two boxes side by side: the Basic modal, then the Figma's Status
+            Modal (Success, Horizontal, 440 x 176, node 167140:146042). */}
+        <ModalBackdrop className="flex-wrap gap-space-16 rounded-corner-12 py-space-48">
           <ModalBox>
             <ModalHeader title="Rename the chat" description="Only you see this name." />
             <ModalBody>{BODY}</ModalBody>
             <ModalFooter />
+          </ModalBox>
+          <ModalBox width="md">
+            <StatusModalContent
+              type="success"
+              alignment="horizontal"
+              title="Insert Status Modal Title"
+              description="Insert your status modal description here. It would look better as two lines of text."
+            />
+            <ModalFooter type="stretch" confirm="View Receipt" />
           </ModalBox>
         </ModalBackdrop>
       </Group>

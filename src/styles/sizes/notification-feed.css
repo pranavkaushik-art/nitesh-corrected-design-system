@@ -34,7 +34,14 @@
   /* ---- Notification item ---- */
   --spacing-notification-feed-item-pad: var(--space-12);
   --radius-notification-feed-item: var(--corner-12);
-  --spacing-notification-feed-item-gap: var(--space-14); /* avatar, words, more (15 in the Figma; page, differs) */
+  --spacing-notification-feed-item-gap: 0.9375rem; /* 15: avatar, words, more, as the Figma draws it (off the spacing scale) */
+  /* The unread dot (Figma "Top Status [1.1]"): a 9 circle of bg/white-0 round
+     a 6.75 one of state/error, centred 37 across and 9 down the 40 avatar
+     (so it pokes 1.5 past its right edge). Off the spacing scale, as drawn. */
+  --spacing-notification-feed-status: 0.5625rem; /* 9 */
+  --spacing-notification-feed-status-dot: 0.421875rem; /* 6.75 */
+  --spacing-notification-feed-status-top: 0.28125rem; /* 4.5 */
+  --spacing-notification-feed-status-left: 2.03125rem; /* 32.5 */
   --spacing-notification-feed-item-words-gap: var(--space-4); /* label to detail line */
   --spacing-notification-feed-item-detail-gap: var(--space-4); /* time, dot, description */
   --spacing-notification-feed-item-picture: var(--space-16); /* the 16 x 16 logo */
@@ -88,6 +95,11 @@
 }
 :root:where([data-theme="ink"], [data-theme="dark"]) {
   --shadow-notification-feed: 0 0 0 1px var(--stroke-soft-200);
+}
+
+/* The unread dot's shadow, the Figma's regular-shadow/small (0 2 4, 4%). */
+:root {
+  --shadow-notification-feed-status: 0 2px 4px color-mix(in srgb, var(--palette-black) 4%, transparent);
 }
 
 /* The 1px stroke/soft-200 line along the bottom of the header and the tab

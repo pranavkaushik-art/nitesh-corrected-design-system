@@ -39,6 +39,7 @@ const KEYWORDS: Record<string, string> = {
   "text-input": "field",
   "text-area": "field textarea",
   scroll: "scrollbar",
+  header: "page header title topbar",
   table: "grid rows",
   filter: "search sort",
   pagination: "pages",

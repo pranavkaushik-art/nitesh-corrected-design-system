@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ALERT_STATUS, type AlertStatus, type AlertVariant } from "@/components/ds/alert";
 import { LinkButton, type LinkButtonProps } from "@/components/ds/link-button";
-import { CloseIcon } from "@/components/ui/icons";
+import { ALERT_ICON, AlertCloseLine } from "@/components/ds/alert-icons";
 
 /**
  * The design system's Banner, built from design-system/components/banner.md
@@ -69,6 +69,8 @@ export function Banner({
   ...props
 }: BannerProps) {
   const s = ALERT_STATUS[status];
+  // The Figma's filled Remix glyph (error-warning-fill, alert-fill, ...), as the Alert draws it.
+  const StatusIcon = ALERT_ICON[status];
   const filled = variant === "filled";
 
   return (
@@ -87,9 +89,9 @@ export function Banner({
         {/* The Stroke edge is an inherited part: cleared here so the link does not draw it too. */}
         <div className="flex min-w-0 items-center gap-banner-gap edge-none lift-none ring-none">
           <span aria-hidden className={cn("flex size-banner-icon shrink-0 [&_svg]:size-banner-icon", !filled && s.icon)}>
-            {icon ?? <s.Icon />}
+            {icon ?? <StatusIcon />}
           </span>
-          <p className="flex min-w-0 flex-wrap items-center gap-banner-text-gap">
+          <p className="m-0 flex min-w-0 flex-wrap items-center gap-banner-text-gap">
             <span className="text-label-sm">{title}</span>
             {description != null && (
               <>
@@ -116,7 +118,7 @@ export function Banner({
               closeButtonProps?.className,
             )}
           >
-            <CloseIcon />
+            <AlertCloseLine />
           </button>
         )}
       </div>

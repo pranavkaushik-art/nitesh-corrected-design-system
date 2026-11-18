@@ -86,7 +86,7 @@ export function ActivityEvent({ picture, children, time, chips, onMore, moreLabe
       </span>
 
       <div className="flex min-w-0 flex-1 flex-col gap-activity-feed-words-gap">
-        <p className="text-label-sm text-text-strong-950">
+        <p className="m-0 text-label-sm text-text-strong-950">
           {children}
           <span aria-hidden className="mx-activity-feed-sentence-gap inline-block w-activity-feed-dot text-center text-label-sm text-text-disabled-300">
             ・
